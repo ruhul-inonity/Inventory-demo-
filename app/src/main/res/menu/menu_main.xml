@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <item
+        android:id="@+id/addProduct"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_add_circle_outline_black_24dp"
+        android:title="@string/menu_product"
+        app:showAsAction="always"
+        android:visible="true"/>
+
+    <item
+        android:id="@+id/addStock"
+        android:orderInCategory="101"
+        android:icon="@drawable/ic_add_circle_outline_black_24dp"
+        android:title="@string/menu_stock"
+        app:showAsAction="collapseActionView"
+        android:visible="true"/>
+
+</menu>

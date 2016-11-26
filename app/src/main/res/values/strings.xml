@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SharedPreferencesDemo</string>
+    <string name="menu_product">add product</string>
+    <string name="menu_stock">add stock</string>
+</resources>
