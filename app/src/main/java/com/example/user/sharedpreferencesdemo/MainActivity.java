@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private Session session;
     DBHelper database;
 
-    ArrayList<Product> products ;
+    ArrayList<Product> productsList ;
     private RecyclerView recyclerView;
     private ProductsAdapter pAdapter;
 
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         database = new DBHelper(this);
-        products = new ArrayList<>();
+        productsList = new ArrayList<>();
 
         session = new Session(this);
         if (!session.loggedin()) {
@@ -47,11 +47,13 @@ public class MainActivity extends AppCompatActivity {
                 logout();
             }
         });
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        pAdapter = new ProductsAdapter(productsList);
 
         //recycle view
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        pAdapter = new ProductsAdapter(products);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(pAdapter);
@@ -61,11 +63,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void prepareProductList() {
 
+        ArrayList<Product> pro = new ArrayList<>();
         try {
-            products = database.getProductsAndAmounts();
-            Log.i("data","..............."+products.get(1).getProductName()+products.get(1).getAvailableProduct());
+            pro = database.getProductsAndAmounts();
+            Log.i("data","..............."+productsList.get(1).getProductName()+productsList.get(1).getAvailableProduct());
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        for (Product p : pro){
+            Product pr = new Product();
+            pr.setProductName(p.getProductName());
+            pr.setAvailableProduct(p.getAvailableProduct());
+            productsList.add(pr);
+            Log.e("prod","..............."+p.getProductName()+" "+p.getAvailableProduct());
         }
         pAdapter.notifyDataSetChanged();
     }

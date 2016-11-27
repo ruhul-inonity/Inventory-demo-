@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.example.user.sharedpreferencesdemo.Product;
 import com.example.user.sharedpreferencesdemo.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyView
         }
 
 
-        public ProductsAdapter(List<Product> productsList) {
+        public ProductsAdapter(ArrayList<Product> productsList) {
             this.productsList = productsList;
         }
 
@@ -45,7 +46,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.MyView
         public void onBindViewHolder(MyViewHolder holder, int position) {
             Product product = productsList.get(position);
             holder.name.setText(product.getProductName());
-            holder.amount.setText(product.getAvailableProduct());
+            holder.amount.setText(String.valueOf(product.getAvailableProduct()));
 
         }
 

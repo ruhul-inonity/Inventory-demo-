@@ -215,6 +215,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     public ArrayList<Product> getProductsAndAmounts() {
         ArrayList<Product> productList = new ArrayList<Product>();
+        int amount = 0;
        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from products left join stock  on  products._id = stock.p_id", null );
         if (cursor != null && cursor.getCount() > 0) {
@@ -224,10 +225,10 @@ public class DBHelper extends SQLiteOpenHelper {
 
                 int pid = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
                 String productName = cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NAME));
-                int amount = cursor.getInt(cursor.getColumnIndex(COLUMN_AMOUNT));
+                 amount = cursor.getInt(cursor.getColumnIndex(COLUMN_AMOUNT));
 
                 Product product = new Product();
-                product.setId(pid);
+               // product.setId(pid);
                 product.setProductName(productName);
                 product.setAvailableProduct(amount);
 
