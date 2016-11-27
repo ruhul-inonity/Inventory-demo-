@@ -140,6 +140,8 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
 
+
+
     //get all products
     public ArrayList<Product> getAllProducts() {
         ArrayList<Product> productArrayList = new ArrayList();

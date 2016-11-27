@@ -18,7 +18,8 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".AddProduct" />
-        <activity android:name=".AddStock"></activity>
+        <activity android:name=".AddStock" />
+        <activity android:name=".SellProduct"></activity>
     </application>
 
 </manifest>
