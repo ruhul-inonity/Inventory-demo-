@@ -122,6 +122,23 @@ public class DBHelper extends SQLiteOpenHelper {
         return id;
     }
 
+    public long addStock(int productId,int amount){
+        long id = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        try {
+            values.put(COLUMN_PRODUCT_ID, productId);
+            values.put(COLUMN_AMOUNT, amount);
+            id = db.insert(STOCK_TABLE, null, values);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        db.close();
+        return id;
+    }
+
 
     //get all products
     public ArrayList<Product> getAllProducts() {
@@ -157,6 +174,28 @@ public class DBHelper extends SQLiteOpenHelper {
         return productArrayList;
     }
 
+    public int getAccountId(String accountName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        int id;
+        try {
+            Cursor cursor = db.rawQuery("select _id from products where product = ?",
+                    new String[]{String.valueOf(accountName)});
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToPosition(0);
+                //int productId = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
+                id = cursor.getInt(0);
+                cursor.close();
+                db.close();
+                return id;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        db.close();
+        return 0;
+    }
+
 
     //check if user logged in correctly
     public boolean getUser (String email, String pass){
@@ -173,6 +212,35 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
         return false;
 
+    }
+    public ArrayList<Product> getProductsAndAmounts() {
+        ArrayList<Product> productList = new ArrayList<Product>();
+       SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from products left join stock  on  products._id = stock.p_id", null );
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            for (int i = 0; i < cursor.getCount(); i++) {
+
+
+                int pid = cursor.getInt(cursor.getColumnIndex(COLUMN_ID));
+                String productName = cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NAME));
+                int amount = cursor.getInt(cursor.getColumnIndex(COLUMN_AMOUNT));
+
+                Product product = new Product();
+                product.setId(pid);
+                product.setProductName(productName);
+                product.setAvailableProduct(amount);
+
+                productList.add(product);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        } else
+
+            System.out.print("Cursor is empty");
+
+        db.close();
+        return productList;
     }
 
 }

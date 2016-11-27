@@ -5,6 +5,10 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,17 +16,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.user.sharedpreferencesdemo.adapter.ProductsAdapter;
+
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
     private Button logout;
     private Session session;
+    DBHelper database;
 
-
+    ArrayList<Product> products ;
+    private RecyclerView recyclerView;
+    private ProductsAdapter pAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        database = new DBHelper(this);
+        products = new ArrayList<>();
 
         session = new Session(this);
         if (!session.loggedin()) {
@@ -36,6 +48,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //recycle view
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        pAdapter = new ProductsAdapter(products);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(pAdapter);
+
+        prepareProductList();
+    }
+
+    private void prepareProductList() {
+
+        try {
+            products = database.getProductsAndAmounts();
+            Log.i("data","..............."+products.get(1).getProductName()+products.get(1).getAvailableProduct());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        pAdapter.notifyDataSetChanged();
     }
 
 

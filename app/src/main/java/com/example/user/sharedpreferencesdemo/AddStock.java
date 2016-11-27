@@ -2,6 +2,7 @@ package com.example.user.sharedpreferencesdemo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -44,8 +45,9 @@ public class AddStock extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String pname = (String) productNames.get(position);//finding selected items name by using adapter position
-                //productId = productList.indexOf();// getting
                 Toast.makeText(getApplicationContext(),pname,Toast.LENGTH_SHORT).show();
+
+                getProductIdFromDb(pname);
             }
 
             @Override
@@ -58,9 +60,19 @@ public class AddStock extends AppCompatActivity {
         buttonAddStock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int amount = Integer.valueOf(availableProducts.getText().toString());
 
+                long flag = database.addStock(productId,amount);
+                if (flag>0){
+                    Toast.makeText(getApplicationContext(),"Stock added",Toast.LENGTH_SHORT).show();
+                }
             }
         });
+    }
+
+    private void getProductIdFromDb(String p_name) {
+         productId = database.getAccountId(p_name);
+        Log.i("product id ","................. " + productId);
     }
 
     private void getProductNames() {
@@ -68,7 +80,9 @@ public class AddStock extends AppCompatActivity {
         productNames = new ArrayList();
 
         for (Product product : productList){
+            //int index = Integer.valueOf(product.getId());
             productNames.add(product.getProductName());
+            Log.i("product id ","................. "+product.getId()+" product name "+product.getProductName());
         }
     }
 }
