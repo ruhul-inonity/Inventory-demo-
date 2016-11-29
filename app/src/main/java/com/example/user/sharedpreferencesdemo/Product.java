@@ -10,8 +10,27 @@ public class Product implements Serializable{
     private int id;
     private String productName;
     private String productCategory;
+    private String date;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public int getProductQuantity() {
+        return productQuantity;
+    }
+
+    public void setProductQuantity(int productQuantity) {
+        this.productQuantity = productQuantity;
+    }
+
     private double productPrice;
     private int availableProduct;
+    private int productQuantity;
 
     public Product() {
     }

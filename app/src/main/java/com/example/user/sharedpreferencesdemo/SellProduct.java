@@ -1,5 +1,6 @@
 package com.example.user.sharedpreferencesdemo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,7 +12,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SellProduct extends AppCompatActivity {
 
@@ -31,9 +34,9 @@ public class SellProduct extends AppCompatActivity {
         database = new DBHelper(this);
         getProductNames();
 
-        productSpinner = (Spinner) findViewById(R.id.spinnerProduct);
-        noOfProducts = (EditText) findViewById(R.id.editAvailableProducts);
-        buttonSell = (Button) findViewById(R.id.btnAddStock);
+        productSpinner = (Spinner) findViewById(R.id.spinnerProductForSell);
+        noOfProducts = (EditText) findViewById(R.id.editNoOfProducts);
+        buttonSell = (Button) findViewById(R.id.btnSell);
 
         //spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(SellProduct.this,
@@ -60,9 +63,25 @@ public class SellProduct extends AppCompatActivity {
         buttonSell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int amount = Integer.valueOf(noOfProducts.getText().toString());
+                int quantity = Integer.valueOf(noOfProducts.getText().toString());
 
-                //call db method and sell product
+                SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd_HHmmss");
+                String currentDateandTime = date.format(new Date());
+                Log.i("current date"," ................."+currentDateandTime);
+
+                Product product = new Product();
+                product.setId(productId);
+                product.setProductQuantity(quantity);
+                product.setDate(currentDateandTime);
+
+                long flag = database.sellProduct(product);
+                if (flag>0){
+                    Toast.makeText(getApplicationContext(),"Product Sold",Toast.LENGTH_SHORT).show();
+                }
+
+                Intent intent = new Intent(SellProduct.this,MainActivity.class);
+                startActivity(intent);
+
             }
         });
     }

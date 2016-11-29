@@ -61,6 +61,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private String CREATE_TABLE_SELL = "CREATE TABLE " + SELL_HISTORY_TABLE + "(" +
             COLUMN_ID + " INTEGER PRIMARY KEY," +
+            COLUMN_PRODUCT_ID + " INTEGER," +
             COLUMN_QUANTITY + " INTEGER," +
             COLUMN_DATE + " TEXT" +
             ");";
@@ -114,6 +115,24 @@ public class DBHelper extends SQLiteOpenHelper {
             values.put(COLUMN_CATEGORY, product.getProductCategory());
             values.put(COLUMN_PRICE, product.getProductPrice());
             id = db.insert(PRODUCT_TABLE, null, values);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        db.close();
+        return id;
+    }
+
+    public long sellProduct(Product product){
+        long id = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        try {
+            values.put(COLUMN_PRODUCT_ID, product.getId());
+            values.put(COLUMN_QUANTITY, product.getProductQuantity());
+            values.put(COLUMN_DATE, product.getDate());
+            id = db.insert(SELL_HISTORY_TABLE, null, values);
         } catch (Exception e) {
             e.printStackTrace();
         }
