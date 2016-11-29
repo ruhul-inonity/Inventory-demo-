@@ -177,18 +177,13 @@ public class DBHelper extends SQLiteOpenHelper {
                 String category = cursor.getString(cursor.getColumnIndex(COLUMN_CATEGORY));
                 Double price = cursor.getDouble(cursor.getColumnIndex(COLUMN_PRICE));
 
-               /* product.setId(cursor.getInt(cursor.getColumnIndex(COLUMN_ID)));
-                product.setProductName(cursor.getString(cursor.getColumnIndex(COLUMN_PRODUCT_NAME)));
-                product.setProductCategory(cursor.getString(cursor.getColumnIndex(COLUMN_CATEGORY)));
-                product.setProductPrice(cursor.getDouble(cursor.getColumnIndex(COLUMN_PRICE)));*/
-
                 Product product = new Product(productId,name,category,price);
                 productArrayList.add(product);
                 cursor.moveToNext();
             }
             cursor.close();
         } else
-            System.out.print("Cursor is empty");
+            //System.out.print("Cursor is empty");
 
 
         db.close();
