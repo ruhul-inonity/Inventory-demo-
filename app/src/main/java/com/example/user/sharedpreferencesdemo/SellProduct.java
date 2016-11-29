@@ -62,7 +62,7 @@ public class SellProduct extends AppCompatActivity {
             public void onClick(View v) {
                 int amount = Integer.valueOf(noOfProducts.getText().toString());
 
-                //call bd method and sell product
+                //call db method and sell product
             }
         });
     }

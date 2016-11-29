@@ -1,5 +1,6 @@
 package com.example.user.sharedpreferencesdemo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -66,6 +67,9 @@ public class AddStock extends AppCompatActivity {
                 if (flag>0){
                     Toast.makeText(getApplicationContext(),"Stock added",Toast.LENGTH_SHORT).show();
                 }
+
+                Intent intent = new Intent(AddStock.this,MainActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -3,7 +3,7 @@ package com.example.user.sharedpreferencesdemo;
 import java.io.Serializable;
 
 /**
- * Created by ruhul on 11/27/16.
+ * Created by user on 11/27/16.
  */
 
 public class Product implements Serializable{
